@@ -65,13 +65,15 @@ public class Game {
 
 	private void goalsGenerate(int origin, int bound) {
 		Random random = new Random();
+		int teamOnePrevious = -1;
+		int teamTwoPrevious = -1;
 		for (int i = 0; i < Game.teams.size() / 2; i++) {
 			int teamOne;
 			int teamTwo;
 			do {
 				teamOne = random.nextInt(0, Game.teams.size());
 				teamTwo = random.nextInt(0, Game.teams.size());
-			} while (teamOne == teamTwo);
+			} while ((teamOne == teamTwo) || (teamOne == teamOnePrevious || teamTwo == teamTwoPrevious));
 
 			int goalsTeamOne = random.nextInt(origin, bound);
 			Game.teams.get(teamOne).setGoalsScored(goalsTeamOne);
@@ -80,6 +82,9 @@ public class Game {
 			int goalsTeamTwo = random.nextInt(origin, bound);
 			Game.teams.get(teamTwo).setGoalsScored(goalsTeamTwo);
 			Game.teams.get(teamOne).setGoalsConceded(goalsTeamTwo);
+
+			teamOnePrevious = teamOne;
+			teamTwoPrevious = teamTwo;
 		}
 	}
 }
